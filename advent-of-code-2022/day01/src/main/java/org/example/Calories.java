@@ -1,6 +1,7 @@
 package org.example;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Calories {
 
@@ -19,5 +20,26 @@ public class Calories {
             }
         }
         return max;
+    }
+
+    public List<Integer> getTopThreeMaxNrOfCalories(List<String> input) {
+        List<Integer> sums = new ArrayList<>();
+        int currentValue = 0;
+
+        for (String s : input) {
+            if ("".equals(s)) {
+                sums.add(currentValue);
+                currentValue = 0;
+                continue;
+            }
+
+            currentValue += Integer.parseInt(s);
+        }
+        sums.add(currentValue);
+
+        return sums.stream()
+                .sorted(Collections.reverseOrder())
+                .collect(Collectors.toList())
+                .subList(0,3);
     }
 }

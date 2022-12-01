@@ -67,6 +67,52 @@ public class AppTest
         System.out.println("Max nr of calories: " + calories.getMaxNrOfCalories(input));
     }
 
+    public void testGetTopThreeMaxNrOfCaloriesExample() {
+        List<String> input = Arrays.stream((
+                "1000\n" +
+                "2000\n" +
+                "3000\n" +
+                "\n" +
+                "4000\n" +
+                "\n" +
+                "5000\n" +
+                "6000\n" +
+                "\n" +
+                "7000\n" +
+                "8000\n" +
+                "9000\n" +
+                "\n" +
+                "10000").split("\n"))
+                .toList();
+
+        Calories calories = new Calories();
+        List<Integer> result = calories.getTopThreeMaxNrOfCalories(input);
+        int first, second, third;
+        first = result.get(0);
+        second = result.get(1);
+        third = result.get(2);
+
+        assertEquals(24_000, first);
+        assertEquals(11_000, second);
+        assertEquals(10_000, third);
+    }
+
+    public void testGetTopThreeMaxNrOfCalories() {
+        List<String> input = readFile("input");
+
+        Calories calories = new Calories();
+        List<Integer> result = calories.getTopThreeMaxNrOfCalories(input);
+        int first, second, third;
+        first = result.get(0);
+        second = result.get(1);
+        third = result.get(2);
+
+        assertEquals(70_613, first);
+        assertEquals(68_330, second);
+        assertEquals(66_862, third);
+        assertEquals(205_805, first + second, third);
+    }
+
     private List<String> readFile(String filename) {
         List<String> input = new ArrayList<>();
         String path = "src/test/resources/" + filename;
