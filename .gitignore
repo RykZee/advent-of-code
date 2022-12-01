@@ -1,0 +1,7 @@
+# Java
+**/.idea/**
+**/*.class
+**/target/**
+
+# Python
+**/__pycache__/**
