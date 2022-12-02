@@ -60,6 +60,28 @@ public class AppTest
          assertEquals(24000, calories.getMaxNrOfCalories(input));
     }
 
+    public void testGetMaxNrOfCaloriesFunctionalExample() {
+        List<String> input = Arrays.stream((
+                "1000\n" +
+                "2000\n" +
+                "3000\n" +
+                "\n" +
+                "4000\n" +
+                "\n" +
+                "5000\n" +
+                "6000\n" +
+                "\n" +
+                "7000\n" +
+                "8000\n" +
+                "9000\n" +
+                "\n" +
+                "10000").split("\n"))
+                .toList();
+
+        Calories calories = new Calories();
+        assertEquals(24000, calories.getMaxNrOfCaloriesFunctional(input));
+    }
+
     public void testGetMaxNrOfCalories() {
         List<String> input = readFile("input");
 

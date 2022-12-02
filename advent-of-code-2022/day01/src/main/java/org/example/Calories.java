@@ -22,6 +22,32 @@ public class Calories {
         return max;
     }
 
+    public int getMaxNrOfCaloriesFunctional(List<String> input) {
+        List<Integer> sums = new ArrayList<>();
+
+        while (true) {
+            if (input.isEmpty()) {
+                break;
+            } else if (input.size() == 1) {
+                sums.add(Integer.parseInt(input.get(0)));
+                break;
+            }
+            List<String> toSumUp = input
+                    .stream()
+                    .takeWhile(s -> !"".equals(s))
+                    .toList();
+
+            input = input.subList(toSumUp.size()+1, input.size());
+
+            int sum = toSumUp
+                    .stream()
+                    .mapToInt(Integer::parseInt)
+                    .sum();
+            sums.add(sum);
+        }
+        return Collections.max(sums);
+    }
+
     public List<Integer> getTopThreeMaxNrOfCalories(List<String> input) {
         List<Integer> sums = new ArrayList<>();
         int currentValue = 0;
