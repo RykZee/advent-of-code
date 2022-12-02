@@ -40,3 +40,38 @@ def calculate_score(strategy):
         points += POINTS[outcome] + POINTS[MAPPER[own_move]]
 
     return points
+
+
+MAPPER2 = {
+    "A": "rock",
+    "B": "paper",
+    "C": "scissors",
+    "X": "lose",
+    "Y": "tie",
+    "Z": "win",
+}
+
+OWN_MOVE = {
+    "rockwin": "paper",
+    "rocklose": "scissors",
+    "rocktie": "rock",
+    "paperwin": "scissors",
+    "paperlose": "rock",
+    "papertie": "paper",
+    "scissorswin": "rock",
+    "scissorslose": "paper",
+    "scissorstie": "scissors",
+}
+
+
+def calculate_score2(strategy):
+    points = 0
+    for line in iter(strategy.splitlines()):
+        if line == "":
+            continue
+        opponent, response = line.split(" ")
+        combination = MAPPER2[opponent] + MAPPER2[response]
+        own_move = OWN_MOVE[combination]
+        points += POINTS[own_move] + POINTS[MAPPER2[response]]
+
+    return points
