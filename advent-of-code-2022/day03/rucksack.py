@@ -9,12 +9,12 @@ def get_priorities(items):
         first_half = set(line[:half])
         second_half = set(line[half:])
 
-        common_chars = first_half.intersection(second_half)
-        for char in common_chars:
-            if 97 <= ord(char) <= 122:
-                points += ord(char) - 96
-            else:
-                points += ord(char) - 38
+        char_in_common = first_half.intersection(second_half).pop()
+        ascii_number = ord(char_in_common)
+        if 97 <= ascii_number <= 122:
+            points += ascii_number - 96
+        else:
+            points += ascii_number - 38
 
     return points
 
@@ -22,14 +22,20 @@ def get_priorities(items):
 def badge(items):
     points = 0
     items_list = [item for item in iter(items.splitlines()) if item != ""]
-    for one, two, three in zip(*[iter(items_list)] * 3):
-        common_chars = set(one).intersection(set(two).intersection(set(three)))
-        if len(common_chars) > 1:
-            breakpoint()
-        for char in common_chars:
-            if 97 <= ord(char) <= 122:
-                points += ord(char) - 96
-            else:
-                points += ord(char) - 38
+    for one, two, three in _three_at_a_time(items_list):
+        char_in_common = _intersection_of(one, two, three).pop()
+        ascii_number = ord(char_in_common)
+        if 97 <= ascii_number <= 122:
+            points += ascii_number - 96
+        else:
+            points += ascii_number - 38
 
     return points
+
+
+def _intersection_of(one, two, three):
+    return set(one).intersection(set(two).intersection(set(three)))
+
+
+def _three_at_a_time(items):
+    return zip(*[iter(items)] * 3)
