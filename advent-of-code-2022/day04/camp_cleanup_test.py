@@ -1,4 +1,4 @@
-from camp_cleanup import get_any_overlapping_sections, get_completely_overlapping_sections
+from camp_cleanup import get_overlapping_sections
 from os import path
 
 INPUT = """
@@ -12,21 +12,25 @@ INPUT = """
 
 
 def test_completely_overlapping_sections_example():
-    assert get_completely_overlapping_sections(INPUT) == 2
+    actual, _ = get_overlapping_sections(INPUT)
+    assert actual == 2
 
 
 def test_completely_overlapping_sections():
     test_input = _read_file("input")
-    assert get_completely_overlapping_sections(test_input) == 576
+    actual, _ = get_overlapping_sections(test_input)
+    assert actual == 576
 
 
 def test_any_overlapping_sections_example():
-    assert get_any_overlapping_sections(INPUT) == 4
+    _, actual = get_overlapping_sections(INPUT)
+    assert actual == 4
 
 
 def test_any_overlapping_sections():
     test_input = _read_file("input")
-    assert get_any_overlapping_sections(test_input) == 905
+    _, actual = get_overlapping_sections(test_input)
+    assert actual == 905
 
 
 def _read_file(filename):
