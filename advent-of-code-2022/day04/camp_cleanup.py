@@ -1,4 +1,4 @@
-def get_overlapping_sections(sections):
+def get_completely_overlapping_sections(sections):
     overlapping = 0
     sections_list = [item for item in sections.splitlines() if item != ""]
     for pair in sections_list:
@@ -11,6 +11,33 @@ def get_overlapping_sections(sections):
             overlapping += 1
 
     return overlapping
+
+
+def get_any_overlapping_sections(sections):
+    overlapping = 0
+    sections_list = [item for item in sections.splitlines() if item != ""]
+    for pair in sections_list:
+        worker1, worker2 = pair.split(",")
+
+        w1_start, w1_end = _get_start_end(worker1)
+        w2_start, w2_end = _get_start_end(worker2)
+
+        if _has_any_in_between(w1_start, w1_end, w2_start, w2_end):
+            overlapping += 1
+
+    return overlapping
+
+
+def _has_any_in_between(start, end, other_start, other_end):
+    if start <= other_start <= end:
+        return True
+    elif other_start <= start <= other_end:
+        return True
+    elif start <= other_end <= end:
+        return True
+    elif other_start <= end <= other_end:
+        return True
+    return False
 
 
 def _is_inbetween(start, end, other_start, other_end):
