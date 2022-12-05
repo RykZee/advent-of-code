@@ -27,15 +27,14 @@ def _get_stack_list_of_lists(raw_stack):
 
     for line in [item for item in raw_stack.splitlines() if item != ""]:
         boxes = line.split()
-        if len(max(boxes)) == 1:
+        if len(max(boxes)) == 1:  # We have reached the end
             break
         index = 0
-        new_line = line
         for box in boxes:
-            index = index + int(sum(0.25 for _ in takewhile(str.isspace, new_line)))
+            index = index + int(sum(0.25 for _ in takewhile(str.isspace, line)))
             result[index].insert(0, box[1])
             index += 1
-            new_line = new_line.strip()[3:]
+            line = line.strip()[3:]
     return result
 
 
