@@ -1,4 +1,4 @@
-from supply import supply_stacks
+from supply import supply_stacks, supply_stacks_9001
 from os import path
 
 STACK_EXAMPLE = """
@@ -36,6 +36,15 @@ def test_supply_stacks_example():
 def test_supply_stacks():
     moves = _read_file("input")
     assert supply_stacks(STACK, moves) == "HBTMTBSDC"
+
+
+def test_supply_stacks_9001_example():
+    assert supply_stacks_9001(STACK_EXAMPLE, EXAMPLE_MOVES) == "MCD"
+
+
+def test_supply_stacks_9001():
+    moves = _read_file("input")
+    assert supply_stacks_9001(STACK, moves) == "PQTJRSHWS"
 
 
 def _read_file(filename):
