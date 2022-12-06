@@ -25,7 +25,7 @@ def _get_stack_list_of_lists(raw_stack):
     for i in range(cols):
         result.append(list())
 
-    for line in [item for item in raw_stack.splitlines() if item != ""]:
+    for line in raw_stack.splitlines()[1:]:
         boxes = line.split()
         if len(max(boxes)) == 1:  # We have reached the end
             break
