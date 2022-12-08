@@ -7,13 +7,13 @@ def get_visibility(raw):
     for row in range(1, rows - 1):
         for col in range(1, cols - 1):
             our_tree = trees[row][col]
-            if _is_visible_left(our_tree, row, col, trees)[0]:
+            if _travel_left(our_tree, row, col, trees)[0]:
                 visible += 1
-            elif _is_visible_right(our_tree, row, col, cols, trees)[0]:
+            elif _travel_right(our_tree, row, col, cols, trees)[0]:
                 visible += 1
-            elif _is_visible_top(our_tree, row, col, trees)[0]:
+            elif _travel_top(our_tree, row, col, trees)[0]:
                 visible += 1
-            elif _is_visible_down(our_tree, row, rows, col, trees)[0]:
+            elif _travel_bottom(our_tree, row, rows, col, trees)[0]:
                 visible += 1
 
     return visible
@@ -28,10 +28,10 @@ def get_scenic_score(raw):
     for row in range(1, rows - 1):
         for col in range(1, cols - 1):
             our_tree = trees[row][col]
-            scenic_score = _is_visible_left(our_tree, row, col, trees)[1]
-            scenic_score *= _is_visible_right(our_tree, row, col, cols, trees)[1]
-            scenic_score *= _is_visible_top(our_tree, row, col, trees)[1]
-            scenic_score *= _is_visible_down(our_tree, row, rows, col, trees)[1]
+            scenic_score = _travel_left(our_tree, row, col, trees)[1]
+            scenic_score *= _travel_right(our_tree, row, col, cols, trees)[1]
+            scenic_score *= _travel_top(our_tree, row, col, trees)[1]
+            scenic_score *= _travel_bottom(our_tree, row, rows, col, trees)[1]
             scenic_scores.append(scenic_score)
 
     return max(scenic_scores)
@@ -44,7 +44,7 @@ def _build_trees_list_of_lists(raw):
     return trees
 
 
-def _is_visible_left(our_tree, row, col, trees):
+def _travel_left(our_tree, row, col, trees):
     other_col = col - 1
     score = 0
     while other_col >= 0:
@@ -56,7 +56,7 @@ def _is_visible_left(our_tree, row, col, trees):
     return True, score
 
 
-def _is_visible_right(our_tree, row, col, cols, trees):
+def _travel_right(our_tree, row, col, cols, trees):
     other_col = col + 1
     score = 0
     while other_col < cols:
@@ -68,7 +68,7 @@ def _is_visible_right(our_tree, row, col, cols, trees):
     return True, score
 
 
-def _is_visible_top(our_tree, row, col, trees):
+def _travel_top(our_tree, row, col, trees):
     other_row = row - 1
     score = 0
     while other_row >= 0:
@@ -80,7 +80,7 @@ def _is_visible_top(our_tree, row, col, trees):
     return True, score
 
 
-def _is_visible_down(our_tree, row, rows, col, trees):
+def _travel_bottom(our_tree, row, rows, col, trees):
     other_row = row + 1
     score = 0
     while other_row < rows:
