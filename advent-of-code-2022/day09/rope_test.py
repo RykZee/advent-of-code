@@ -1,4 +1,4 @@
-from rope import get_number_of_positions
+from rope import get_number_of_positions, get_number_of_longtail_positions
 from os import path
 
 EXAMPLE = """
@@ -20,6 +20,15 @@ def test_get_number_of_positions_example():
 def test_get_number_of_positions():
     real_input = _read_file("input")
     assert get_number_of_positions(real_input) == 6181
+
+
+def test_get_number_of_positions_longtail_example():
+    assert get_number_of_longtail_positions(EXAMPLE) == 1
+
+
+def test_get_number_of_positions_longtail():
+    real_input = _read_file("input")
+    assert get_number_of_longtail_positions(real_input) == 2386
 
 
 def _read_file(filename):
