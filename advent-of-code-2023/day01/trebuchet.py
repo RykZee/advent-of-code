@@ -32,14 +32,6 @@ def trebuchet2(text):
     return result
 
 
-def _get_numeric_chars_with_index_at(string):
-    result = {}
-    for index, char in enumerate(string):
-        if char.isnumeric():
-            result[index] = str(char)
-    return result
-
-
 def _find_digits(string):
     result = _get_numeric_chars_with_index_at(string)
     for valid_value in VALID_VALUES:
@@ -48,6 +40,14 @@ def _find_digits(string):
             for match in matches:
                 result[match] = VALID_VALUES[valid_value]
     return _sorted_numerics_list_from_map(result)
+
+
+def _get_numeric_chars_with_index_at(string):
+    result = {}
+    for index, char in enumerate(string):
+        if char.isnumeric():
+            result[index] = str(char)
+    return result
 
 
 def _sorted_numerics_list_from_map(numerics_map):
