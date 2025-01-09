@@ -1,4 +1,4 @@
-from historian_hysteria import find_differences
+from historian_hysteria import find_differences, find_similarities
 from os import path
 
 EXAMPLE_INPUT = """
@@ -21,6 +21,18 @@ def test_difference_test():
   left, right = _split_to_two_lists(_read_file("test_input"))
   actual = find_differences(left, right)
   assert actual == 1651298
+
+
+def test_similarities_example():
+  left, right = _split_to_two_lists(EXAMPLE_INPUT)
+  actual = find_similarities(left, right)
+  assert actual == 31
+
+
+def test_similarities_test():
+  left, right = _split_to_two_lists(_read_file("test_input"))
+  actual = find_similarities(left, right)
+  assert actual == 21306195
 
 
 def _split_to_two_lists(text):
