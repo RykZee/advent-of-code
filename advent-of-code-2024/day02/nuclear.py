@@ -1,53 +1,80 @@
+from enum import StrEnum
+
+
+class Direction(StrEnum):
+  ASCENDING = "ASCENDING"
+  DESCENDING = "DESCENDING"
+  NOT_SET = "NOT_SET"
+
+
 def safe_reports(text: str) -> int:
-    reports = _text_to_reports(text)
+  reports = _text_to_reports(text)
 
-    result = 0
-    for report in reports:
-        if is_safe(report):
-            result += 1
-    return result
+  result = 0
+  for report in reports:
+    if _is_safe_report(report) == 0:
+      result += 1
 
-
-def is_safe(report: list[int]) -> bool:
-    order = _ascending_or_descending(report)
-    match order:
-        case "ASCENDING":
-            return _check_ascending(report)
-        case "DESCENDING":
-            return _check_descending(report)
+  return result
 
 
-def _check_ascending(report: list[int]) -> bool:
-    for i, current_level in enumerate(report):
-        if i == 0:
-            continue
-        if current_level < report[i - 1]:
-            return False
-        difference = current_level - report[i - 1]
-        if not 1 <= difference <= 3:
-            return False
-    return True
+def safe_reports_with_dampener(text: str) -> int:
+  reports = _text_to_reports(text)
+
+  result = 0
+  for report in reports:
+    if _is_safe_report(report) == 0:
+      result += 1
+      continue
+
+    made_safe = False
+    for j in range(len(report)):
+      reduced = report[:j] + report[j + 1 :]
+      if _is_safe_report(reduced) == 0:
+        made_safe = True
+        break
+
+    if made_safe:
+      result += 1
+
+  return result
 
 
-def _check_descending(report: list[int]) -> bool:
-    for i, current_level in enumerate(report):
-        if i == 0:
-            continue
-        if current_level > report[i - 1]:
-            return False
-        difference = report[i - 1] - current_level
-        if not 1 <= difference <= 3:
-            return False
-    return True
+def _is_safe_report(levels: list[int]) -> int:
+  direction = Direction.NOT_SET
+  for i, level in enumerate(levels):
+    if i + 1 == len(levels):
+      return 0
+    if _is_decreasing_safely(i, level, levels):
+      if direction == Direction.ASCENDING:
+        return i + 1
+      elif direction == Direction.NOT_SET:
+        direction = Direction.DESCENDING
+      continue
+    elif _is_increasing_safely(i, level, levels) and direction != Direction.DESCENDING:
+      if direction == Direction.DESCENDING:
+        return i + 1
+      elif direction == Direction.NOT_SET:
+        direction = Direction.ASCENDING
+    else:
+      return i + 1
+  return 101
 
 
-def _ascending_or_descending(report: list[int]) -> str:
-    return "ASCENDING" if report[0] < report[1] else "DESCENDING"
+def _is_decreasing_safely(i: int, level: int, levels: list[int]) -> bool:
+  return level > levels[i + 1] and level - levels[i + 1] <= 3
+
+
+def _is_increasing_safely(i: int, level: int, levels: list[int]) -> bool:
+  return level < levels[i + 1] and levels[i + 1] - level <= 3
 
 
 def _text_to_reports(text: str) -> list[list[int]]:
-    result = []
-    for line in text.split("\n"):
-        report = [int(num) for num in line.split()]
-        result.append(report)
-    return result
+  result = []
+  for line in text.splitlines():
+    line = line.strip()
+    if not line:
+      continue
+    report = [int(num) for num in line.split()]
+    result.append(report)
+  return result
