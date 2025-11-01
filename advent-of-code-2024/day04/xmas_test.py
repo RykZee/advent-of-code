@@ -1,5 +1,5 @@
 from os import path
-from xmas import find_xmas_hits
+from xmas import find_xmas_hits, find_x_mas_hits
 
 EXAMPLE = """
 MMMSXXMASM
@@ -23,6 +23,16 @@ def test_find_xmas_example():
 def test_find_xmas():
     actual = find_xmas_hits(_read_file("input"))
     assert actual == 2406
+
+
+def test_find_x_max_example():
+    actual = find_x_mas_hits(EXAMPLE)
+    assert actual == 9
+
+
+def test_find_x_max():
+    actual = find_x_mas_hits(_read_file("input"))
+    assert actual == 1807
 
 
 def _read_file(filename: str):
