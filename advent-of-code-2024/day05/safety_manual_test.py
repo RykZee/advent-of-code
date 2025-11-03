@@ -1,5 +1,5 @@
 from os import path
-from safety_manual import calculate_safety_manual
+from safety_manual import calculate_safety_manual, fix_incorrect_updates
 
 EXAMPLE = """
 47|53
@@ -41,6 +41,16 @@ def test_calculate_safety_manual_example():
 def test_calculate_safety_manual():
     actual = calculate_safety_manual(_read_file("input"))
     assert actual == 6505
+
+
+def test_fix_incorrect_updates_example():
+    actual = fix_incorrect_updates(EXAMPLE)
+    assert actual == 123
+
+
+def test_fix_incorrect_updates():
+    actual = fix_incorrect_updates(_read_file("input"))
+    assert actual == 6897
 
 
 def _read_file(filename: str):

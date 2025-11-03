@@ -7,6 +7,12 @@ def calculate_safety_manual(text: str) -> int:
     return _match_updates(rules, updates)
 
 
+def fix_incorrect_updates(text: str) -> int:
+    raw_rules, updates = _rules_and_updates(text)
+    rules = _sort_according_to_rules(raw_rules)
+    return _match_incorrect_updates(rules, updates)
+
+
 def _rules_and_updates(text: str) -> Tuple[List[Tuple[int, int]], List[List[int]]]:
     rules = []
     updates = []
@@ -28,6 +34,31 @@ def _sort_according_to_rules(raw_rules: List[Tuple[int, int]]) -> Dict[int, Set[
             rules[first] = set()
         rules[first].add(second)
     return rules
+
+
+def _match_incorrect_updates(
+    rules: Dict[int, Set[int]], updates: List[List[int]]
+) -> int:
+    result = 0
+    for update in updates:
+        numbers = set()
+        fixed = False
+        for number in update:
+            if matches := rules.get(number, set()).intersection(numbers):
+                lowest_index = 1_000_000
+                for match in matches:
+                    if update.index(match) < lowest_index:
+                        lowest_index = update.index(match)
+
+                update.remove(number)
+                update.insert(lowest_index, number)
+                fixed = True
+            numbers.add(number)
+        if fixed:
+            median = update[len(update) // 2]
+            result += median
+
+    return result
 
 
 def _match_updates(rules: Dict[int, Set[int]], updates: List[List[int]]) -> int:
