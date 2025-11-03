@@ -1,0 +1,49 @@
+from os import path
+from safety_manual import calculate_safety_manual
+
+EXAMPLE = """
+47|53
+97|13
+97|61
+97|47
+75|29
+61|13
+75|53
+29|13
+97|29
+53|29
+61|53
+97|53
+61|29
+47|13
+75|47
+97|75
+47|61
+75|61
+47|29
+75|13
+53|13
+
+75,47,61,53,29
+97,61,53,29,13
+75,29,13
+75,97,47,61,53
+61,13,29
+97,13,75,29,47
+""".strip()
+
+
+def test_calculate_safety_manual_example():
+    actual = calculate_safety_manual(EXAMPLE)
+    assert actual == 143
+
+
+def test_calculate_safety_manual():
+    actual = calculate_safety_manual(_read_file("input"))
+    assert actual == 6505
+
+
+def _read_file(filename: str):
+    dir_path = path.dirname(path.realpath(__file__))
+    with open(f"{dir_path}/{filename}", "r") as f:
+        return f.read().strip()
